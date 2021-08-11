@@ -23,6 +23,7 @@ export const getById = asyncHandler (async(req, res) => {
     res.status(200).json(found);
 })
 
+
 export const getByIdAndInfo = asyncHandler (async(req, res) => {
     const { id } = req.params;
     const { info } = req.params;
