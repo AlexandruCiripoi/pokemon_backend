@@ -6,10 +6,14 @@ import asyncHandler from "../middlewares/asyncHandler.js"
 
 let dataPath = "../pokemon_backend/pokedex.json"
 let results = fs.readFileSync(dataPath)
-let parsed = JSON.parse(results)
+
 
 export const getAll = asyncHandler (async(req, res) => {
-    res.status(200).json(parsed);
+    let parsed = JSON.parse(results)
+    const skip = parseInt(req.query.skip)
+    const limit = parseInt(req.query.limit)
+    const response = parsed.splice(skip, limit)
+    res.status(200).json({total: parsed.length, items: response});
 })
 
 export const getById = asyncHandler (async(req, res) => {
@@ -18,6 +22,7 @@ export const getById = asyncHandler (async(req, res) => {
     if (!found) throw new Error("invalid ID")
     res.status(200).json(found);
 })
+
 
 export const getByIdAndInfo = asyncHandler (async(req, res) => {
     const { id } = req.params;
