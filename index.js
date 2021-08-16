@@ -1,10 +1,12 @@
+import 'dotenv/config.js';
 import express from "express";
 import pokeRouter from "./routes/pokeRouter.js";
 import errorHandler from "./middlewares/errorHandler.js"
+import './db/mongooseClient.js';
 
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 app.use(express.json()); // needed to access body from req
 app.use(function(req, res, next) {
