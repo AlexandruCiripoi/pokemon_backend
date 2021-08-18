@@ -2,9 +2,6 @@ import asyncHandler from "../middlewares/asyncHandler.js"
 import Pokemon from '../models/Pokemon.js';
 import ErrorResponse from '../utils/ErrorResponse.js';
 
-// let dataPath = "../pokemon_backend/pokedex.json"
-// let results = fs.readFileSync(dataPath)
-
 
 export const getAll = asyncHandler (async(req, res) => {
     const skip = parseInt(req.query.skip) - 1
@@ -27,6 +24,19 @@ export const getById = asyncHandler (async(req, res) => {
     if (!pokemon) throw new ErrorResponse(`Post with id of ${id} not found`, 404);
     res.status(200).json(pokemon);
 })
+
+
+export const getByType = asyncHandler (async(req, res) => {
+    const { info } = req.params;
+    console.log(info)
+    let query = {'type': [info.charAt(0).toUpperCase() + info.slice(1).toLowerCase()]}
+
+    const pokemons = await Pokemon.find(query);
+    if (!pokemons) throw new ErrorResponse(`Post with id of ${info} not found`, 404);
+    console.log({total: pokemons.length, items: pokemons})
+    res.status(200).json({total: pokemons.length, items: pokemons});
+})
+
 
 
 export const getByIdAndInfo = asyncHandler (async(req, res) => {

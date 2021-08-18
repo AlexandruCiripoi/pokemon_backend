@@ -1,6 +1,7 @@
 import 'dotenv/config.js';
 import express from "express";
 import pokeRouter from "./routes/pokeRouter.js";
+import statRouter from "./routes/statRouter.js";
 import errorHandler from "./middlewares/errorHandler.js"
 import './db/mongooseClient.js';
 
@@ -16,6 +17,7 @@ app.use(function(req, res, next) {
   next();
 });
 app.use("/pokemon", pokeRouter);
+app.use("/stat", statRouter);
 app.use("/", (req, res) => res.send("Welcome to the Pokemon API"));
 app.use(errorHandler)
 app.listen(port, () =>
